@@ -3,7 +3,7 @@ http://www.w3schools.com/googleapi/google_maps_basic.asp
 
 ## Create a Basic Google Map
 
-'''html
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +26,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </body>
 
 </html>
-'''
+```
 
 ### Asynchronously Loading
 
@@ -36,7 +36,7 @@ The example below uses window.onload to load the Google Maps API after the page 
 
 The loadScript() function creates the Google Maps API <script> tag. In addition, the callback=initialize parameter is added to the end of the URL to execute the initialize() function after the API is fully loaded:
 
-'''html
+```html
 function loadScript() {
   var script = document.createElement("script");
   script.src = "http://maps.googleapis.com/maps/api/js?callback=initialize";
@@ -44,7 +44,7 @@ function loadScript() {
 }
 
 window.onload = loadScript;
-'''
+
 
 ### Google API Key
 
@@ -56,9 +56,9 @@ Go to https://console.developers.google.com to get a free key.
 
 Google Maps expects to find the API key in the key parameter when loading an API:
 
-'''html
+```html
 <script src="http://maps.googleapis.com/maps/api/js?key=YOUR_KEY"></script>
-'''
+```
 
 ## Google Maps - Overlays
 
@@ -75,45 +75,45 @@ Google Maps has several types of overlays:
 
 ### Google Maps - Add a Marker
 
-'''html
+```html
 var marker=new google.maps.Marker({
   position:myCenter,
   });
 
 marker.setMap(map);
-'''
+```
 
 ### Google Maps - Animate the Marker
 
-'''html
+```html
 var marker=new google.maps.Marker({
   position:myCenter,
   animation:google.maps.Animation.BOUNCE
   });
 
 marker.setMap(map);
-'''
+```
 
 ### Google Maps - Icon Instead of Marker
 
-'''hmtl
+```hmtl
 var marker=new google.maps.Marker({
   position:myCenter,
   icon:'pinkball.png'
   });
 
 marker.setMap(map);
-'''
+```
 
 ### Google Maps - InfoWindow
 
-'''html
+```html
 var infowindow = new google.maps.InfoWindow({
   content:"Hello World!"
   });
 
 infowindow.open(map,marker);
-'''
+```
 
 ## Google Maps Events
 
@@ -121,27 +121,27 @@ Click the marker to zoom - attach event handlers to Google maps.
 
 ### Click The Marker to Zoom
 
-'''html
+```html
 // Zoom to 9 when clicking on marker
 google.maps.event.addListener(marker,'click',function() {
   map.setZoom(9);
   map.setCenter(marker.getPosition());
   });
-'''
+```
 
 ### Pan Back to Marker
 
-'''html
+```html
 google.maps.event.addListener(map,'center_changed',function() {
   window.setTimeout(function() {
     map.panTo(marker.getPosition());
   },3000);
 });
-'''
+```
 
 ### Open an InfoWindow When Clicking on The Marker
 
-'''html
+```html
 var infowindow = new google.maps.InfoWindow({
   content:"Hello World!"
   });
@@ -149,11 +149,11 @@ var infowindow = new google.maps.InfoWindow({
 google.maps.event.addListener(marker, 'click', function() {
   infowindow.open(map,marker);
   });
-'''
+```
 
 ### Set Markers and Open InfoWindow for Each Marker
 
-'''html
+```html
 google.maps.event.addListener(map, 'click', function(event) {
   placeMarker(event.latLng);
   });
@@ -169,4 +169,4 @@ function placeMarker(location) {
   });
   infowindow.open(map,marker);
 }
-'''
+```
