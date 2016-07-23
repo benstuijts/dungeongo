@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+
+  <title>Dungeon Go</title>
+
+
+  <!--
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD1Cn7Rl7k_pahc-wOsyZidFTRHGDBRb8Q"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD1Cn7Rl7k_pahc-wOsyZidFTRHGDBRb8Q"></script>
+  -->
+
+<style>
+#minimap {position: fixed; right: 10px; bottom: 10px; z-index: 10;}
+#dungeon { position: fixed; left: 0px; top: 40px;}
+</style>
+</head>
+<body>
+  <h1 style="text-align: center; background: dodgerblue;">Dungeon Go</h1>
+  <div id="googleMap" style="width:100%;height:50%;"></div>
+
+  <div id="info"></div>
+  <canvas width="1000" height="640" id="dungeon" style="border: 3px solid black;"></canvas>
+  <canvas width="200" height="200" id="minimap" style="border: 1px solid darkred;"></canvas>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script> var socket = io(); </script>
+  <script src="js/bundle.js"></script>
+</body>
+</html>

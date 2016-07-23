@@ -16,25 +16,38 @@ Wanneer een speler een dungeon binnen gaat, start hij of zij altijd op level 1 (
 
 In de wereld zijn shops te vinden, waar je items kunt kopen, tegen betaling van dungeon coins en ook workshops, waarin jij jouw items kan laten maken tegen betaling van dungeon coins. Standaard dungeons items (walls, doors etc) kun je gewoon kopen bij jouw eigen dungeon. Er zijn op aarde ook dungeonshops waar je bijzondere dungeons items en creatures kunt kopen.
 
- ## Game Play Elementen
+## Play a dungeon
+Wanneer je een dungeon binnengaat, zie je de tiles, direct om jou heen. Je kunt de tiles ook in de verte zien, mits niet geblokt door muren. Je kunt in 8 richtingen kijken. De tiles, waarop je staat en direct aan jouw positie grenzen, worden met een opacity van 1 weer gegeven. Iedere tile verder zorgt voor een daling van de opacity met 0.2. Fakkels of andere lichtpunten zorgen voor een opacity van 1 direct aan de tile, die verlicht wordt.
 
- Start Game:
- * Op de plek waar jij start, wordt jouw home dungeon op aarde geplaatst.
- * Kies jouw avatar, waarmee je andere dungeons gaat bezoeken.
- * In een straal van 1 km worden maximaal 10 at random single player dungeons geplaatst. Deze dungeons kun je alleen spelen om het spel te leren kennen en dungeons coins te verdienen. Deze dungeons zijn altijd zichtbaar op jouw kaart en kun je dus bezoeken, zonder op zoek te gaan hiernaar.
- * In een straal van 5 km wordt maximaal 1 shop en maximaal 1 workshop geplaatst. Deze shops zijn niet direct zichtbaar, maar moeten ontdekt worden. Op de kaart worden wel aanwijzingen gegeven in de vorm van een pijl, die in de richting van de shop wijst. Wanneer je je bevindt in een straal van 500 meter van de shop, zal deze zichtbaar worden op jouw kaart em zichtbaar blijven.
+## Enemies in a dungeon
+Vijanden kunnen verschillende gedragen hebben:
+GUARD: Vijand blijft op zijn positie en valt pas aan wanneer je direct tegenover hem komt te staan.
+GUARD-AREA: Vijand blijft op zijn positie staan en valt aan wanneer je binnen een aantal vakjes (minimaal 1) van hem komt te staan.
+RUN: Wanneer je in de buurt komt van een vijand (minimaal 1 vakje) rent hij weg om een gevecht te voorkomen.
+CHASE: Wanneer een vijand jou ziet, blijft hij achter jouw aan zitten totdat hij jouw aangevallen heeft.
+SMELL_CHASE: Een vijand kan jou ruiken en komt actief naar jou toe.
+SMELL_RUN: Een vijand probeert het gevecht met jou te voorkomen door weg te rennen van jou.
 
- Your Own Dungeon
- * Geef jouw dungeon een naam.
- * Standaard bestaat jouw dungeon uit 5 levels. Op ieder level is een trap naar beneden geplaatst en op het laatste level een prijzenkist level 1. De entree van jouw dungeon bedraagt 10 dungeon coins. De entree stijgt naarmate de prijzenkist in level stijgt.
- * Deel jouw dungeon op social media en zorg dat spelers jouw dungeon gaan spelen. Wanneer jouw dungeon bezocht wordt verdien je daar dungeoncoins mee, waarmee jij weer betere dungeons items of items voor je eigen avatar kunt kiezen.
- * Deel je dungeon in zoals je zelf wilt: Plaats extra muren om een doolhof te maken en zorg voor een pittige bewaking door creatures toe te voegen. Om jouw bezoekers te helpen kun je blauwe kisten (level 1) plaatsen. Later in het spel kun je ook rode kisten toeveogen.
 
-Dungeon / item shops
+## Game Play Elementen
+
+### Start Game:
+* Op de plek waar jij start, wordt jouw home dungeon op aarde geplaatst.
+* Kies jouw avatar, waarmee je andere dungeons gaat bezoeken.
+* In een straal van 1 km worden maximaal 10 at random single player dungeons geplaatst. Deze dungeons kun je alleen spelen om het spel te leren kennen en dungeons coins te verdienen. Deze dungeons zijn altijd zichtbaar op jouw kaart en kun je dus bezoeken, zonder op zoek te gaan hiernaar.
+* In een straal van 5 km wordt maximaal 1 shop en maximaal 1 workshop geplaatst. Deze shops zijn niet direct zichtbaar, maar moeten ontdekt worden. Op de kaart worden wel aanwijzingen gegeven in de vorm van een pijl, die in de richting van de shop wijst. Wanneer je je bevindt in een straal van 500 meter van de shop, zal deze zichtbaar worden op jouw kaart em zichtbaar blijven.
+
+### Your Own Dungeon
+* Geef jouw dungeon een naam.
+* Standaard bestaat jouw dungeon uit 5 levels. Op ieder level is een trap naar beneden geplaatst en op het laatste level een prijzenkist level 1. De entree van jouw dungeon bedraagt 10 dungeon coins. De entree stijgt naarmate de prijzenkist in level stijgt.
+* Deel jouw dungeon op social media en zorg dat spelers jouw dungeon gaan spelen. Wanneer jouw dungeon bezocht wordt verdien je daar dungeoncoins mee, waarmee jij weer betere dungeons items of items voor je eigen avatar kunt kiezen.
+* Deel je dungeon in zoals je zelf wilt: Plaats extra muren om een doolhof te maken en zorg voor een pittige bewaking door creatures toe te voegen. Om jouw bezoekers te helpen kun je blauwe kisten (level 1) plaatsen. Later in het spel kun je ook rode kisten toeveogen.
+
+### Dungeon / item shops
 1. Standaard shops: found at 500 meter in range, level 1-10 items, level 1-5 dungeon items, level 1-10 creatures
 2. Master shops: found at 100 meter in range, level 5-20 items, level 5-10 dungeon items, level 10-20 creatures
 
-Verschillende type dungeons
+### Verschillende type dungeons
 1. Player Driven Dungeon: level 5-99, single en multi player, prizes level 1-99, blue chests level 1-99, red chests level 1-99, creatures level 1-99
 2. Random Dungeon: level 5-10, single en multi player, prizes level 1-5, blue chests level 1-4, red chest level 1-4 (25% chance), creatures level 1-6
 3. Master Single Player Dungeon: level 5-25, single player only, prizes level 5-20, blue chests level 1-20, red chests level 1-10(10% chance), creatures level 1-30
@@ -42,7 +55,7 @@ Verschillende type dungeons
 5. Quest Dungeon: level 5-50, multi player (party size 5-20), prizes level 20-50, blue chests level 5-50, red chests level 10-40(25% chance), creatures level 10-100
 6. Special Dungeon
 
-Dungeon Items
+## Dungeon Items
 level 1: walls, stairs
 level 2: doors
 level 3: key, closed door
@@ -53,8 +66,8 @@ level 7: trap max damage 20hp
 level 8: lava tile (damage 4hp)
 level 9: trap max damage 30hp
 
-Dungeon creatures
+## Dungeon creatures
 
-Avatar items
+## Avatar items
 level 1: normal knife
 level 2: leather armor
