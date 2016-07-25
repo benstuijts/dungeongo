@@ -1,65 +1,71 @@
-/* ./server/socket/index.js */
-
-const fs = require('fs');
-const colors = require('colors');
-const utils = require('../../own_modules/utils');
-const Room = require('./models/Room');
-
-const socket_list = {};
-
-const dungeons = ["random12345", "random56789", "master12345"];
-
-const playersOnline = {};
-
+const Dungeon = require("./models/Dungeon");
+const utils = require("../../own_modules/utils");
+const dungeon_list = {};
 'use strict';
-module.exports = function(socket, io) {
+module.exports = function(io) {
+  io.on('connection', function(socket) {
+    //Globals
+  //var defaultRoom = 'general';
+  //var rooms = ["General", "angular", "socket.io", "express", "node", "mongo", "PHP", "laravel"];
 
-  socket.consolePlayersOnline = function() {
-    console.log('Players online: ' + Object.keys(playersOnline).length);
-    console.log(playersOnline);
-  }
-
-  
-
-    socket.consolePlayersOnline();
-
-    socket.on('connection', function(){
-      console.log('socket connected');
-    });
-
-    socket.on('disconnect', function(){
-      console.log('user disconnected: ' + socket.id);
-      delete playersOnline[socket.id];
-      socket.consolePlayersOnline();
-    });
-
-    loadAllActions({ exceptions: ['_template'] });
+  //Emit the rooms array
+  //socket.emit('setup', {
+  //  rooms: rooms
+  //});
 
 
-    socket.on("TEST",  function(data) {
-      console.log('test action' + data);
-    });
+  //Listens for new user
+  socket.on('new user', function(data) {
+    //data.room = defaultRoom;
+    let defaultRoom = data.room;
+    //New user joins the default room
+    socket.join(defaultRoom);
+    //Tell all those in the room that a new user joined
+    io.in(defaultRoom).emit('user joined', data);
+  });
 
-    function loadAction(actionName) {
-      return socket.on(actionName, require('./actions/' + actionName + '.js')(socket, playersOnline));
+  //Listens for switch room
+  socket.on('switch room', function(data) {
+    //Handles joining and leaving rooms
+    //console.log(data);
+    socket.leave(data.oldRoom);
+    socket.join(data.newRoom);
+    io.in(data.oldRoom).emit('user left', data);
+    io.in(data.newRoom).emit('user joined', data);
+
+  });
+
+  socket.on('enter dungeon', function(data){
+    let room = data.room;
+    socket.join(room);
+    io.in(room).emit('user joined', data);
+  });
+
+  socket.on('ENTER_DUNGEON', (data) => {
+    let _room = data.dungeon.id;
+
+    if(dungeon_list[data.dungeon.id]) {
+
+    } else {
+      let _dungeon = new Dungeon(data.dungeon.name, data.dungeon.id, socket.id);
+      dungeon_list[data.dungeon.id] = _dungeon;
+    }
+    dungeon_list[data.dungeon.id].addPerson(socket.id);
+
+    socket.join(_room);
+    io.in(_room).emit('user joined', data);
+  });
+
+  socket.on('disconnect', function() {
+    console.log('socket ' + socket.id + ' disconnected...' );
+    for(let id in dungeon_list) {
+      dungeon_list[id].removePerson(socket.id);
+      io.in(id).emit('user left', {player: {name: "the other player"}});
     }
 
-    function loadAllActions(options) {
-      let except = options.exceptions || ""
-      fs.readdir('./server/socket/actions', function(error, dir){
-        dir.forEach(function(action){
-          let actionName = action.split(".")[0];
-          if(actionName=='temp') return;
-          if(typeof except === 'string') {
-            if(except === actionName) return;
-          }
-          if(typeof except === 'object') {
-            if(except.indexOf(actionName) > -1) return;
-          }
-          loadAction(actionName);
-        });
-      });
-    }
+  });
 
-    return socket;
-};
+  });
+
+  return io;
+}

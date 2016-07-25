@@ -15,6 +15,10 @@ class Dungeon {
     this.minimapCtx = this.canvasMiniMap.getContext("2d");
     this.dungeonCtx = this.canvasDungeon.getContext("2d");
 
+    this.offCanvas = document.createElement("canvas");
+    this.offCtx = this.offCanvas.getContext("2d")
+
+
     this.getMap = new Promise((resolve, reject)=>{
       let map = this.randomDungeon();
       map ? resolve(map) : reject({error: "error"});
@@ -49,7 +53,7 @@ class Dungeon {
 
       // test our find method:
 
-      let path = this.findPathTo(this.player, this.map[1][6]); // returns array with tiles whoch should have walls.
+      let path = this.findPathTo(this.player, this.map[4][3]); // returns array with tiles whoch should have walls.
       console.log(path);
 
       // Check if there are any walls on this path:
@@ -66,8 +70,10 @@ class Dungeon {
         console.log('tile is NOT visible to player');
       }
 
+      //console.log(this.isTileVisible(this.map[4][6], this.player));
 
-      this.render();
+      this.renderMap();
+      this.renderOwnPlayer();
     }).catch();
 
     // ----------------------
@@ -154,10 +160,29 @@ class Dungeon {
     return map;
   }
 
+  isTileVisible(tile, actor) {
+
+
+    let path = this.findPathTo(actor, tile); // returns array with tiles whoch should have walls.
+    let visibleFlag = true;
+
+    path.forEach((t) => {
+      if(this.map[t.x][t.y].id == 1) {
+        visibleFlag = false;
+      }
+    });
+
+    if(visibleFlag) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   findPathTo(actor, target) {
     let path = [];
 
-    console.log(actor.x, actor.y, " TO ", target.x, target.y);
+    //console.log(actor.x, actor.y, " TO ", target.x, target.y);
 
     let startX = actor.x,
         startY = actor.y,
@@ -174,30 +199,48 @@ class Dungeon {
     while(pathComplete == false) {
 
       // check if x coords reach endX
-      if(walkerX == endX + 1 || walkerX == endX - 1) {
+      if(walkerX == endX + 1 || walkerX == endX - 1 || walkerX == endX) {
         xDirectionComplete = true;
       }
 
       // check if y coords reach endY
-      if(walkerY == endY + 1 || walkerY == endY - 1) {
+      if(walkerY == endY + 1 || walkerY == endY - 1 || walkerY == endY) {
         yDirectionComplete = true;
       }
+      // Diagonal reach...
+      if( walkerX == endX - 1 && walkerY == endY - 1 ||
+          walkerX == endX - 1 && walkerY == endY + 1 ||
+          walkerX == endX + 1 && walkerY == endY - 1 ||
+          walkerX == endX + 1 && walkerY == endY + 1 ) {
+          xDirectionComplete = true;
+          yDirectionComplete = true;
+          pathComplete = true;
+        }
 
-        console.log(`walker: ${walkerX}, ${walkerY} xComplete: ${xDirectionComplete} yComplete: ${yDirectionComplete} pathComplete: ${pathComplete}`);
+        if(walkerX == endX + 1 && walkerY == endY - 1) {
+          //console.log('puint 2,4 reached');
+        }
+        //console.log(`walker: ${walkerX}, ${walkerY} xComplete: ${xDirectionComplete} yComplete: ${yDirectionComplete} pathComplete: ${pathComplete}`);
+
+        if(!xDirectionComplete) {
+          if(walkerX < endX ) {
+            stepX = 1;
+          }
+          if(walkerX > endX ) {
+            stepX = -1;
+          }
+        }
+
+        if(!yDirectionComplete) {
+          if(walkerY < endY ) {
+            stepY = 1;
+          }
+          if(walkerY > endY ) {
+            stepY = -1;
+          }
+        }
 
 
-        if(walkerX < endX && xDirectionComplete == false) {
-          stepX = 1;
-        }
-        if(walkerX > endX && xDirectionComplete == false) {
-          stepX = -1;
-        }
-        if(walkerY < endY && yDirectionComplete == false) {
-          stepY = 1;
-        }
-        if(walkerY > endY && yDirectionComplete == false) {
-          stepY = -1;
-        }
 
         // walker gaat stap maken:
         walkerX = walkerX + stepX,
@@ -226,6 +269,37 @@ class Dungeon {
     return path;
   }
 
+  renderPlayers() {
+
+  }
+
+  renderOwnPlayer() {
+    let ctx = this.dungeonCtx;
+    this.player.render(ctx);
+  }
+
+  renderMap() {
+    let ctx = this.dungeonCtx,x,y;
+    let playerX = this.player.x,
+        playerY = this.player.y;
+    for(x = playerX - 4; x < playerX + 5; x++) {
+      for(y = playerY - 4; y < playerY + 5; y++) {
+
+          if(typeof this.map[x][y] != 'undefined') {
+            //console.log(this.isTileVisible(this.map[x][y], this.player));
+            if(this.isTileVisible(this.map[x][y], this.player)) {
+              let opacity = 1 - ((Math.abs(x - playerX)) * 0.1);
+              this.map[x][y].render(ctx, opacity);
+            }
+
+
+          }
+
+
+      }
+    }
+
+  }
 
   render() {
     // 1 first draw tile on whicj player stands
@@ -241,7 +315,7 @@ class Dungeon {
     for(x = playerX - 4; x < playerX + 5; x++) {
       for(y = playerY - 4; y < playerY + 5; y++) {
 
-        console.log('tiles d.istance to player:' + Math.abs(x - playerX));
+        //console.log('tiles d.istance to player:' + Math.abs(x - playerX));
 
         // Is a tile visible to the player => no walls are between tile en players position.
         /*

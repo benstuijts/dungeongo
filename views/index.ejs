@@ -13,17 +13,117 @@
   -->
 
 <style>
+html, body, div, span
+{
+  margin:0px;
+  padding: 0px;
+}
+body {
+  background: #322c35;
+}
 #minimap {position: fixed; right: 10px; bottom: 10px; z-index: 10;}
-#dungeon { position: fixed; left: 0px; top: 40px;}
+#dungeon { position: fixed; left: 0px; top: 190px;}
+.container-dungeon {
+  position: fixed; left: 0px; right: 0px;
+}
+.active-players-container {
+  z-index: 100;
+  
+  overflow-x: auto;
+}
+.player-container {
+  display: inline: block;
+  width: 100px;
+  height: auto;
+  background: rgba(0,0,0,.5);
+  margin: 8px;
+}
+.player-avatar-container {
+
+}
+.player-name-container {
+  position: relative;
+  background: black;
+  width: 100%;
+  color: white;
+  text-align: center;
+  padding: 4px 0px;
+}
+.player-name-container > p {
+  color: white;
+  margin: 0px;
+}
+.player-level-container {
+  position: absolute;
+  right: 5px; top: -30px;
+  background: gold;
+  border: 1px solid silver;
+  border-radius: 100%;
+  width: 30px; height: 30px;
+  text-align: center;
+  line-height: 30px;
+  color: black;
+}
+progress {
+  width: 100px;
+  height: 8px;
+  background: black;
+}
+.progress-hp::-webkit-progress-value {
+  background: red;
+}
+.progress-mp::-webkit-progress-value {
+  background: green;
+}
+.progress-exp::-webkit-progress-value {
+  background: white;
+}
+.message-bar {
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 8px; left: 0px; width: 100%;
+  background: rgba(0,0,0,.7);
+  color: white;
+  padding: 8px 10px;
+  margin: 0px 8px;
+}
 </style>
 </head>
 <body>
-  <h1 style="text-align: center; background: dodgerblue;">Dungeon Go</h1>
+  <div class="container-dungeon">
+    <button id="enter">Enter dungeon</button>
+    <button id="enter2">Enter dungeon 2</button>
+    <div class="active-players-container" id="active-players-container">
+      <div class="player-container">
+        <div class="player-avatar-container">
+          <img src="./images/avatar/2.png" width="100">
+        </div>
+        <div class="player-name-container">
+          <p class="player-name">
+            <span id="player-name">Spelersnaam</span>
+          </p>
+          <div class="player-level-container">
+            <span id="player-level">99</span>
+          </div>
+        </div>
+        <div class="player-stats-container">
+          <progress class="progress-hp" max="10" value="8"></progress>
+          <progress class="progress-mp" max="10" value="4"></progress>
+          <progress class="progress-exp" max="10" value="1"></progress>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
   <div id="googleMap" style="width:100%;height:50%;"></div>
 
   <div id="info"></div>
   <canvas width="1000" height="640" id="dungeon" style="border: 3px solid black;"></canvas>
   <canvas width="200" height="200" id="minimap" style="border: 1px solid darkred;"></canvas>
+
+  <div class="message-bar" id="message-bar"></div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script> var socket = io(); </script>

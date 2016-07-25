@@ -1,6 +1,7 @@
 /* Map controls */
 //require('./map-system/googlemapsapi.js');
 
+require('./game-controls');
 
 import Dungeon from './dungeon/Dungeon';
 //import { test } from './dungeon/test';
